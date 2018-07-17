@@ -12,8 +12,14 @@ public class Ticket {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int ticketId;
+    @ManyToOne
+    @JoinColumn (name = "userId")
     private User user;
+    @ManyToOne
+    @JoinColumn (name = "paymentId")
     private Payment payment;
+    @ManyToOne
+    @JoinColumn (name = "expositionId")
     private Exposition exposition;
     private int numberOfPersons;
     private LocalDate eventDate;

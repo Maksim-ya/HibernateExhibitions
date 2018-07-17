@@ -1,6 +1,8 @@
 package com.maksim.model.domain;
 
 
+
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 @Entity

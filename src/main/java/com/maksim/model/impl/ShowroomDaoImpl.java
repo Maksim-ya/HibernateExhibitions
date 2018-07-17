@@ -1,6 +1,5 @@
 package com.maksim.model.impl;
 
-import com.maksim.model.connection.DBConnection;
 import com.maksim.model.dao.ShowroomDao;
 import com.maksim.model.domain.Showroom;
 import org.apache.log4j.Logger;
@@ -29,21 +28,21 @@ public class ShowroomDaoImpl implements ShowroomDao {
 
     @Override
     public Showroom findById(int showroomId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM showrooms WHERE showroomId = ?");
-            statement.setInt(1,showroomId);
-            resultSet = statement.executeQuery();
-            return createShowroomFromResult(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, statement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            statement = connection.prepareStatement(
+//                    "SELECT * FROM showrooms WHERE showroomId = ?");
+//            statement.setInt(1,showroomId);
+//            resultSet = statement.executeQuery();
+//            return createShowroomFromResult(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, statement, resultSet);
+//        }
         return null;
     }
 

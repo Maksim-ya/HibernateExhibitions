@@ -19,7 +19,7 @@ public class LoginCommand implements Command {
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
 
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)  {
         String page;
         String login = request.getParameter(PARAM_LOGIN);
         String password = request.getParameter(PARAM_NAME_PASSWORD);

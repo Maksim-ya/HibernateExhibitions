@@ -1,6 +1,5 @@
 package com.maksim.model.impl;
 
-import com.maksim.model.connection.DBConnection;
 import com.maksim.model.dao.PaymentDao;
 import com.maksim.model.domain.Payment;
 import com.maksim.model.domain.Ticket;
@@ -94,89 +93,89 @@ public class PaymentDaoImpl implements PaymentDao {
 //    }
 
     public Payment findPaymentByPaymentInfo(int userId, BigDecimal totalPrice, Timestamp dateTime) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM PAYMENTS WHERE USERID = ? AND TOTALPRICE=? AND DATETIME =?");
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setBigDecimal(2, totalPrice);
-            preparedStatement.setTimestamp(3, dateTime);
-            resultSet = preparedStatement.executeQuery();
-            return createPaymentFromResult(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-
-        } finally {
-            DBConnection.close(connection, preparedStatement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            preparedStatement = connection.prepareStatement(
+//                    "SELECT * FROM PAYMENTS WHERE USERID = ? AND TOTALPRICE=? AND DATETIME =?");
+//            preparedStatement.setInt(1, userId);
+//            preparedStatement.setBigDecimal(2, totalPrice);
+//            preparedStatement.setTimestamp(3, dateTime);
+//            resultSet = preparedStatement.executeQuery();
+//            return createPaymentFromResult(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//
+//        } finally {
+//            DBConnection.close(connection, preparedStatement, resultSet);
+//        }
         return null;
     }
 
     @Override
     public int addPayment(User user, List<Ticket> ticketList, BigDecimal totalPrice) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        int userId;
-        try {
-            connection = DBConnection.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payments (userId, totalPrice, dateTime) VALUES (?,?,?)");
-            userId = user.getUserId();
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setBigDecimal(2, totalPrice);
-            Date date = new Date();
-            Timestamp dateTime = new Timestamp(date.getTime());
-            dateTime.setNanos(0);
-            preparedStatement.setTimestamp(3, dateTime);
-            preparedStatement.executeUpdate();
-            return DaoFactoryImpl.getInstance().getPaymentDao()
-                    .findPaymentByPaymentInfo(userId,totalPrice,dateTime).getPaymentId();
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, preparedStatement);
-        }
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        int userId;
+//        try {
+//            connection = DBConnection.getConnection();
+//            preparedStatement = connection.prepareStatement(
+//                    "INSERT INTO payments (userId, totalPrice, dateTime) VALUES (?,?,?)");
+//            userId = user.getUserId();
+//            preparedStatement.setInt(1, userId);
+//            preparedStatement.setBigDecimal(2, totalPrice);
+//            Date date = new Date();
+//            Timestamp dateTime = new Timestamp(date.getTime());
+//            dateTime.setNanos(0);
+//            preparedStatement.setTimestamp(3, dateTime);
+//            preparedStatement.executeUpdate();
+//            return DaoFactoryImpl.getInstance().getPaymentDao()
+//                    .findPaymentByPaymentInfo(userId,totalPrice,dateTime).getPaymentId();
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, preparedStatement);
+//        }
         return 0;
     }
 
     @Override
     public Payment findPaymentById(int paymentId) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM PAYMENTS WHERE PAYMENTID = ?");
-            preparedStatement.setInt(1, paymentId);
-            resultSet = preparedStatement.executeQuery();
-            return createPaymentFromResult(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, preparedStatement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            preparedStatement = connection.prepareStatement(
+//                    "SELECT * FROM PAYMENTS WHERE PAYMENTID = ?");
+//            preparedStatement.setInt(1, paymentId);
+//            resultSet = preparedStatement.executeQuery();
+//            return createPaymentFromResult(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, preparedStatement, resultSet);
+//        }
         return null;
     }
 
     @Override
     public void deletePayment(Payment payment) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = DBConnection.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "DELETE FROM payments WHERE paymentId=?");
-            preparedStatement.setInt(1, payment.getPaymentId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, preparedStatement);
-        }
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            preparedStatement = connection.prepareStatement(
+//                    "DELETE FROM payments WHERE paymentId=?");
+//            preparedStatement.setInt(1, payment.getPaymentId());
+//            preparedStatement.executeUpdate();
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, preparedStatement);
+//        }
     }
     private Payment createPaymentFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();

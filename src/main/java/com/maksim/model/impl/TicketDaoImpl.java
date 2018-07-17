@@ -1,6 +1,5 @@
 package com.maksim.model.impl;
 
-import com.maksim.model.connection.DBConnection;
 import com.maksim.model.dao.TicketDao;
 import com.maksim.model.domain.Exposition;
 import com.maksim.model.domain.Payment;
@@ -32,22 +31,22 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public List<Ticket> findTicketsByUserByEventDate(int userId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM tickets WHERE userId = ? ORDER BY eventDate");
-            statement.setInt(1, userId);
-            resultSet = statement.executeQuery();
-            List<Ticket> list =  resultToList(resultSet);
-            return list;
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, statement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            statement = connection.prepareStatement(
+//                    "SELECT * FROM tickets WHERE userId = ? ORDER BY eventDate");
+//            statement.setInt(1, userId);
+//            resultSet = statement.executeQuery();
+//            List<Ticket> list =  resultToList(resultSet);
+//            return list;
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, statement, resultSet);
+//        }
         return null;
     }
     private List<Ticket> resultToList(ResultSet resultSet) throws SQLException {
@@ -76,24 +75,24 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public boolean addTicket(Ticket ticket) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection =  DBConnection.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "INSERT INTO tickets (userId,paymentId, expositionId,numberOfPersons, eventDate) VALUES (?,?,?,?,?)");
-            preparedStatement.setInt(1, ticket.getUser().getUserId());
-            preparedStatement.setInt(2, ticket.getPayment().getPaymentId());
-            preparedStatement.setInt(3, ticket.getExposition().getExpositionId());
-            preparedStatement.setInt(4, ticket.getNumberOfPersons());
-            preparedStatement.setString(5, ticket.getEventDate().toString());
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, preparedStatement);
-        }
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        try {
+//            connection =  DBConnection.getConnection();
+//            preparedStatement = connection.prepareStatement(
+//                    "INSERT INTO tickets (userId,paymentId, expositionId,numberOfPersons, eventDate) VALUES (?,?,?,?,?)");
+//            preparedStatement.setInt(1, ticket.getUser().getUserId());
+//            preparedStatement.setInt(2, ticket.getPayment().getPaymentId());
+//            preparedStatement.setInt(3, ticket.getExposition().getExpositionId());
+//            preparedStatement.setInt(4, ticket.getNumberOfPersons());
+//            preparedStatement.setString(5, ticket.getEventDate().toString());
+//            preparedStatement.executeUpdate();
+//            return true;
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, preparedStatement);
+//        }
         return false;
     }
 }

@@ -6,13 +6,13 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory = null;
+    private static SessionFactory sessionFactory;
 
     static {
         Configuration cfg = new Configuration().configure();
-        StandardServiceRegistry builder = new StandardServiceRegistryBuilder()
-                .applySettings(cfg.getProperties()).build();
-        sessionFactory = cfg.buildSessionFactory(builder);
+//        StandardServiceRegistry builder = new StandardServiceRegistryBuilder()
+//                .applySettings(cfg.getProperties()).build();
+        sessionFactory = cfg.buildSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {

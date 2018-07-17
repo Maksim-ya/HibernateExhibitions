@@ -1,6 +1,5 @@
 package com.maksim.model.service;
 
-import com.maksim.model.connection.DBConnection;
 import com.maksim.model.domain.Ticket;
 import com.maksim.model.domain.User;
 import com.maksim.model.impl.DaoFactoryImpl;
@@ -25,26 +24,26 @@ public class TicketService {
     }
 
     public boolean ticketTransaction(User user, List<Ticket> ticketList, BigDecimal totalPrice) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        Ticket ticket;
-        try {
-            connection.setAutoCommit(false);
-            int paymentId = DaoFactoryImpl.getInstance().getPaymentDao().addPayment(user, ticketList, totalPrice);
-
-            for (int i = 0; i < ticketList.size(); i++) {
-                ticket = ticketList.get(i);
-                ticket.setPayment(DaoFactoryImpl.getInstance().getPaymentDao().findPaymentById(paymentId));
-                DaoFactoryImpl.getInstance().getTicketDao().addTicket(ticket);
-            }
-            BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
-            user.setAccount(priceUpdate);
-            DaoFactoryImpl.getInstance().getUserDao().updateUser(user);
-            connection.commit();
-            return  true;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            connection.rollback();
-        }
+//        Connection connection = DBConnection.getConnection();
+//        Ticket ticket;
+//        try {
+//            connection.setAutoCommit(false);
+//            int paymentId = DaoFactoryImpl.getInstance().getPaymentDao().addPayment(user, ticketList, totalPrice);
+//
+//            for (int i = 0; i < ticketList.size(); i++) {
+//                ticket = ticketList.get(i);
+//                ticket.setPayment(DaoFactoryImpl.getInstance().getPaymentDao().findPaymentById(paymentId));
+//                DaoFactoryImpl.getInstance().getTicketDao().addTicket(ticket);
+//            }
+//            BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
+//            user.setAccount(priceUpdate);
+//            DaoFactoryImpl.getInstance().getUserDao().updateUser(user);
+//            connection.commit();
+//            return  true;
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//            connection.rollback();
+//        }
 
         return false;
     }

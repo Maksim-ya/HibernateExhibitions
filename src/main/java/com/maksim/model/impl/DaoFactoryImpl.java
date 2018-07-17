@@ -16,7 +16,7 @@ public class DaoFactoryImpl implements DaoFactory {
 
     @Override
     public UserDao getUserDao() {
-        return UserDaoImpl.getInstance();
+            return UserDaoImpl.getInstance();
     }
 
     @Override

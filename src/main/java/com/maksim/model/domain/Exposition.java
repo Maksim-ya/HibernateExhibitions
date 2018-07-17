@@ -16,6 +16,8 @@ public class Exposition {
     private String title;
     private BigDecimal price;
     private String topic;
+    @ManyToOne
+    @JoinColumn (name = "showroomId")
     private Showroom showroom;
     private LocalDate startDate;
     private LocalDate finishDate;

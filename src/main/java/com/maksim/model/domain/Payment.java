@@ -13,6 +13,8 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentId;
+    @ManyToOne
+    @JoinColumn (name = "userId")
     private User user;
     private BigDecimal totalPrice;
     private Timestamp dateTime;

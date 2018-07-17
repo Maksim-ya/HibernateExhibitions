@@ -1,10 +1,15 @@
 package com.maksim.model.impl;
 
-import com.maksim.model.connection.DBConnection;
 import com.maksim.model.dao.ExpositionDao;
 import com.maksim.model.domain.Exposition;
 import com.maksim.model.domain.Showroom;
+import com.maksim.model.domain.User;
+import com.maksim.util.HibernateUtil;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -30,61 +35,62 @@ public class ExpositionDaoImpl implements ExpositionDao {
         return expositionDaoImpl;
     }
 
+
     @Override
     public int findAllId() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            preparedStatement = connection.prepareStatement(
-                    "SELECT max(expositionId) FROM expositions");
-            resultSet = preparedStatement.executeQuery();
-            return createIdFromResult(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, preparedStatement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            preparedStatement = connection.prepareStatement(
+//                    "SELECT max(expositionId) FROM expositions");
+//            resultSet = preparedStatement.executeQuery();
+//            return createIdFromResult(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, preparedStatement, resultSet);
+//        }
         return 0;
     }
 
     @Override
     public List<Exposition> findAll() {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM expositions");
-            resultSet = statement.executeQuery();
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, statement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            statement = connection.prepareStatement(
+//                    "SELECT * FROM expositions");
+//            resultSet = statement.executeQuery();
+//            return resultToList(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, statement, resultSet);
+//        }
         return null;
     }
 
     @Override
     public Exposition findById(int expositionId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM expositions WHERE expositionId = ?");
-            statement.setInt(1,expositionId);
-            resultSet = statement.executeQuery();
-            return createExpositionFromResult(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, statement, resultSet);
-        }
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            statement = connection.prepareStatement(
+//                    "SELECT * FROM expositions WHERE expositionId = ?");
+//            statement.setInt(1,expositionId);
+//            resultSet = statement.executeQuery();
+//            return createExpositionFromResult(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, statement, resultSet);
+//        }
         return null;
     }
 
@@ -98,43 +104,46 @@ public class ExpositionDaoImpl implements ExpositionDao {
         return false;
     }
 
+
     @Override
     public List<String> findAllTopics() {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT DISTINCT topic FROM expositions");
-            resultSet = statement.executeQuery();
-            return resultToStringList(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, statement, resultSet);
-        }
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(" SELECT DISTINCT topic FROM Exposition");
+        List<String> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
     }
+
 
     @Override
     public List<Exposition> findAllByTopic(String topic) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM expositions WHERE topic=?");
-            statement.setString(1,topic);
-            resultSet = statement.executeQuery();
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        } finally {
-            DBConnection.close(connection, statement, resultSet);
-        }
-        return null;
+//        Connection connection = null;
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DBConnection.getConnection();
+//            statement = connection.prepareStatement(
+//                    "SELECT * FROM expositions WHERE topic=?");
+//            statement.setString(1,topic);
+//            resultSet = statement.executeQuery();
+//            return resultToList(resultSet);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage());
+//        } finally {
+//            DBConnection.close(connection, statement, resultSet);
+//        }
+//        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+        Query query = session.createSQLQuery(" FROM Exposition   WHERE topic :t");
+        query.setString("t", topic);
+        List<Exposition> list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
     }
 
 
@@ -144,6 +153,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
         int publicationId = resultSet.getInt(1);
         return publicationId;
     }
+
     private List<Exposition> resultToList(ResultSet resultSet) throws SQLException {
         List<Exposition> list = new ArrayList<Exposition>();
         while (resultSet.next()) {
@@ -152,6 +162,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
         }
         return list;
     }
+
     private List<String> resultToStringList(ResultSet resultSet) throws SQLException {
         List<String> list = new ArrayList<String>();
         while (resultSet.next()) {
@@ -160,6 +171,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
         }
         return list;
     }
+
     private String createTopicFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
         String expositionTopic = resultSet.getString(1);
@@ -178,6 +190,6 @@ public class ExpositionDaoImpl implements ExpositionDao {
         LocalDate startDate = LocalDate.parse(resultSet.getString(6));
         LocalDate finishDate = LocalDate.parse(resultSet.getString(7));
         Showroom showroom = ShowroomDaoImpl.getInstance().findById(showroomId);
-        return new Exposition(expositionId, expositionTitle, expositionPrice, topic, showroom, startDate,finishDate);
+        return new Exposition(expositionId, expositionTitle, expositionPrice, topic, showroom, startDate, finishDate);
     }
 }
